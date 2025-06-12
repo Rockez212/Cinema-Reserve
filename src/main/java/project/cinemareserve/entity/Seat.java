@@ -10,17 +10,21 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@Builder
 @Table(name = "seat")
 public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     private Screening screening;
+    @Column(name = "row")
     private int row;
+    @Column(name = "number")
     private int number;
+    @Column(name = "is_reserved")
     private boolean isReserved;
+
 
     public Seat(Screening screening, int row, int number, boolean isReserved) {
         this.screening = screening;

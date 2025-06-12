@@ -1,0 +1,36 @@
+### User Registration
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+
+{
+  "username": "Rockez666",
+  "email": "dfgd251asdf@gmail.com",
+  "password": "1234567"
+}
+
+### User Login
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+> {%
+    if (response && response.body) {
+        const { accessToken} = response.body;
+        client.global.set("accessToken", accessToken);
+        console.log("Access token successfully set:", accessToken);
+
+    } else {
+        console.error("Response body is undefined or empty.");
+    }
+%}
+
+### Create new book
+POST http://localhost:8080/admin/library/newBook
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+

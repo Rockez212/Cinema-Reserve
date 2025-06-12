@@ -4,5 +4,5 @@ create table seat
     screening  BIGINT references screening (id),
     row        int     not null,
     number     int     not null,
-    isReserved boolean not null
+    is_reserved boolean not null
 );

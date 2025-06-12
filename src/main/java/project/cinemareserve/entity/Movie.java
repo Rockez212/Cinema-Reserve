@@ -1,24 +1,25 @@
 package project.cinemareserve.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
-import org.springframework.stereotype.Service;
+import lombok.Setter;
 
 import java.util.Objects;
 
 @Entity
 @Getter
-@Service
-@Builder
+@Setter
 @Table(name = "movie")
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "title")
     private String title;
+    @Column(name = "description")
     private String description;
-    @Column(name = "durationminutes")
+    @Column(name = "durationMinutes")
     private int durationMinutes;
 
     public Movie(String title, String description, int durationMinutes) {

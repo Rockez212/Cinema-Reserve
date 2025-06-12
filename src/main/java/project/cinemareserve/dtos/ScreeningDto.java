@@ -3,9 +3,7 @@ package project.cinemareserve.dtos;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 @Data
-@Builder
 public class ScreeningDto {
     private MovieDto movie;
     private String startTime;
