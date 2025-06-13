@@ -19,6 +19,7 @@ public class Screening {
     @Column(name = "id")
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "movie")
     private Movie movie;
     @Column(name = "startTime")
     private LocalDateTime startTime;

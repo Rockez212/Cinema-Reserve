@@ -1,6 +1,5 @@
 package project.cinemareserve.controller;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,10 +24,9 @@ public class AuthController {
         return ResponseEntity.ok("Successfully registered");
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<TokenResponse> login(LoginCommand command) {
-//        TokenResponse accessToken = authService.login(command);
-//
-//        return ResponseEntity.ok(accessToken);
-//    }
+    @PostMapping("/login")
+    public ResponseEntity<TokenResponse> login(LoginCommand command) {
+        TokenResponse accessToken = authService.login(command);
+        return ResponseEntity.ok(accessToken);
+    }
 }

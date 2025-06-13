@@ -27,7 +27,12 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
+                // auth controller
                 .requestMatchers("/auth/**").permitAll()
+                // admin controller
+                .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                // user role controller
+                .requestMatchers("/booking/registerBooking").hasAnyAuthority("USER")
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
