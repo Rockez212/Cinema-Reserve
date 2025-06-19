@@ -1,3 +1,4 @@
+
 ### User Registration
 POST http://localhost:8080/auth/register
 Content-Type: application/json
@@ -13,13 +14,13 @@ POST http://localhost:8080/auth/login
 Content-Type: application/json
 
 {
-  "username": "admin",
-  "password": "admin"
+  "username": "Rockez666",
+  "password": "1234567"
 }
 
 > {%
     if (response && response.body) {
-        const { accessToken} = response.body;
+        const {accessToken} = response.body;
         client.global.set("accessToken", accessToken);
         console.log("Access token successfully set:", accessToken);
 
@@ -28,9 +29,61 @@ Content-Type: application/json
     }
 %}
 
-### Create new book
-POST http://localhost:8080/admin/library/newBook
+### Booking
+POST http://localhost:8080/bookings
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
+
+{
+  "movieId": 3,
+  "row": 2,
+  "numberSeats": 25
+}
+
+### Get bookings
+GET http://localhost:8080/users
+Authorization: Bearer {{accessToken}}
+
+
+
+
+### ADMIN SERVICE
+
+/
+
+
+
+### Create movie
+POST http://localhost:8080/admin/movies
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+
+{
+  "title": "Fight Club (1999)",
+  "description": "An office worker suffering from insomnia meets a mysterious soap salesman named Tyler Durden. Together they form an underground fight club that evolves into something much more.",
+  "durationMinutes": 139
+}
+
+### Create Screening
+POST http://localhost:8080/admin/screenings
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "movieId": 1,
+  "startTime": "2025-11-15T14:25:00",
+  "hallName": "Main Hall"
+}
+
+### Delete Movie
+DELETE http://localhost:8080/admin/movies/3
+Authorization: Bearer {{accessToken}}
+
+
+### Delete Screening
+DELETE http://localhost:8080/admin/screenings/5
+Authorization: Bearer {{accessToken}}
+
 
 

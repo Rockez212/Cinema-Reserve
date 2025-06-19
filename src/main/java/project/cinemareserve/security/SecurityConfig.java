@@ -31,8 +31,9 @@ public class SecurityConfig {
                 .requestMatchers("/auth/**").permitAll()
                 // admin controller
                 .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                .requestMatchers("/users/**").hasAnyAuthority("USER")
                 // user role controller
-                .requestMatchers("/booking/registerBooking").hasAnyAuthority("USER")
+                .requestMatchers("/bookings/**").hasAnyAuthority("USER")
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

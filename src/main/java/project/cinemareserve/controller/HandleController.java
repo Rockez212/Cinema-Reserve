@@ -21,12 +21,12 @@ public class HandleController {
     }
 
     @ExceptionHandler(InvalidPasswordException.class)
-    public ResponseEntity<String> handleAmountMustBeGreaterThanZeroException(InvalidPasswordException e) {
+    public ResponseEntity<String> handleInvalidPasswordException(InvalidPasswordException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
     @ExceptionHandler(UserExistsException.class)
-    public ResponseEntity<String> handleInvalidPasswordException(UserExistsException e) {
+    public ResponseEntity<String> handleUserExistsException(UserExistsException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
@@ -45,5 +45,13 @@ public class HandleController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
+    @ExceptionHandler(SeatReservedException.class)
+    public ResponseEntity<String> handleSeatReservedException(SeatReservedException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
 
+    @ExceptionHandler(ScreeningNotHasBeenAnnouncedException.class)
+    public ResponseEntity<String> handleScreeningNotHasBeenAnnouncedException(ScreeningNotHasBeenAnnouncedException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
 }

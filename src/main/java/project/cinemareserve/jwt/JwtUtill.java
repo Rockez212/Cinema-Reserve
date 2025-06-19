@@ -21,7 +21,7 @@ public class JwtUtill {
     private String secret;
 
     public String generateAccessToken(String username) {
-        Date expirationDate = Date.from(ZonedDateTime.now().plusSeconds(10).toInstant());
+        Date expirationDate = Date.from(ZonedDateTime.now().plusMinutes(60).toInstant());
 
         return JWT.create()
                 .withSubject("USER TOKEN")

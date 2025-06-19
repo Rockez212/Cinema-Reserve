@@ -12,7 +12,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@Table(name = "screening")
+@Table(name = "screenings")
 public class Screening {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,9 +21,9 @@ public class Screening {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie")
     private Movie movie;
-    @Column(name = "startTime")
+    @Column(name = "start_time")
     private LocalDateTime startTime;
-    @Column(name = "hallName")
+    @Column(name = "hall_name")
     private String hallName;
 
     public Screening(Movie movie, LocalDateTime startTime, String hallName) {

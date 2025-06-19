@@ -5,14 +5,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.cinemareserve.command.BookingCommand;
 import project.cinemareserve.dtos.BookingDto;
-import project.cinemareserve.entity.Booking;
-import project.cinemareserve.entity.Seat;
-import project.cinemareserve.entity.User;
+import project.cinemareserve.entity.*;
+import project.cinemareserve.exception.MovieNotFoundException;
+import project.cinemareserve.exception.ScreeningNotHasBeenAnnouncedException;
 import project.cinemareserve.exception.SeatNotFoundException;
+import project.cinemareserve.exception.SeatReservedException;
 import project.cinemareserve.mapper.BookingMapper;
 import project.cinemareserve.repo.BookingRepository;
+import project.cinemareserve.repo.MovieRepository;
+import project.cinemareserve.repo.ScreeningRepository;
 import project.cinemareserve.repo.SeatRepository;
-import project.cinemareserve.repo.UserRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,29 +25,50 @@ public class BookingService {
     private final SeatRepository seatRepository;
     private final AuthService authService;
     private final BookingRepository bookingRepository;
+    private final MovieRepository movieRepository;
+    private final ScreeningRepository screeningRepository;
 
     @Transactional
     public void registerBooking(BookingCommand command) {
-        User user = authService.getCurrentUser();
-        Seat seat = seatRepository.findById(command.getSeatId()).orElseThrow(() -> new SeatNotFoundException("Seat Not Found"));
+        checkIfScreeningExists(command.getMovieId());
 
-        if (seat.isReserved()) {
-            throw new RuntimeException("seat already reserved");
-        }
+        User user = authService.getCurrentUser();
+        Movie bookedMovie = movieRepository.findById(command.getMovieId()).orElseThrow(() -> new MovieNotFoundException("Movie Not Found"));
+
+        Screening screening = screeningRepository.findByMovieId(bookedMovie.getId());
+
+        checkIfSeatsReserved(screening, command.getRow(), command.getNumberSeats());
+
+        Seat seat = seatRepository.findByScreeningAndRowAndNumber(screening, command.getRow(), command.getNumberSeats()).orElseThrow(() -> new SeatNotFoundException("Seat Not Found222"));
+
 
         seat.setReserved(true);
-        seatRepository.save(seat);
-
         Booking newBooking = new Booking(user, seat);
         bookingRepository.save(newBooking);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<BookingDto> getBookings() {
         User currentUser = authService.getCurrentUser();
-        return bookingRepository.findAllByUser(currentUser).stream()
-                .map(BookingMapper::toBookingDto)
-                .collect(Collectors.toList());
+        return bookingRepository.findAllByUser(currentUser).stream().map(BookingMapper::toBookingDto).collect(Collectors.toList());
+    }
+
+
+    @Transactional
+    protected void checkIfScreeningExists(Long movieId) {
+        if (!screeningRepository.existsByMovieId(movieId)) {
+            throw new ScreeningNotHasBeenAnnouncedException("Screening Not Has Been Announced");
+        }
+    }
+
+
+    @Transactional
+    protected void checkIfSeatsReserved(Screening screening, int row, int numberSeats) {
+        Seat seatToCheck = seatRepository.findByScreeningAndRowAndNumber(screening, row, numberSeats).orElseThrow(() -> new SeatNotFoundException("Seat Not Found"));
+
+        if (seatToCheck.isReserved()) {
+            throw new SeatReservedException("Seat already reserved");
+        }
     }
 
 }

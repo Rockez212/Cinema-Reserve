@@ -1,5 +1,6 @@
 package project.cinemareserve.service;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,6 +14,7 @@ import project.cinemareserve.command.LoginCommand;
 import project.cinemareserve.command.RegisterCommand;
 import project.cinemareserve.command.TokenResponse;
 import project.cinemareserve.entity.User;
+import project.cinemareserve.enums.Role;
 import project.cinemareserve.exception.InvalidPasswordException;
 import project.cinemareserve.exception.UserExistsException;
 import project.cinemareserve.jwt.JwtUtill;
@@ -27,13 +29,27 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
 
+
+    @PostConstruct
+    @Transactional
+    public void init() {
+        String adminUsername = "admin";
+
+        if (!userRepository.existsByUsername(adminUsername)) {
+            User ownAdmin = new User(adminUsername, "admin228@gmail.com", passwordEncoder.encode("admin"));
+            ownAdmin.setRole(Role.ADMIN);
+            userRepository.save(ownAdmin);
+        }
+    }
+
+
     @Transactional
     public void register(RegisterCommand command) {
         String username = command.getUsername();
         String email = command.getEmail();
-        checkIfUserExists(username,email);
+        checkIfUserExists(username, email);
         String password = passwordEncoder.encode(command.getPassword());
-        User newUser = new User(username, email,password);
+        User newUser = new User(username, email, password);
         userRepository.save(newUser);
     }
 
@@ -55,8 +71,8 @@ public class AuthService {
         return new TokenResponse(accessToken);
     }
 
-    private void checkIfUserExists(String username,String email) {
-        if (userRepository.existsByUsernameOrEmail(username,email)) {
+    private void checkIfUserExists(String username, String email) {
+        if (userRepository.existsByUsernameOrEmail(username, email)) {
             throw new UserExistsException("User already exists");
         }
     }

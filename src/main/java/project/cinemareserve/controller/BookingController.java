@@ -11,16 +11,15 @@ import project.cinemareserve.service.BookingService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/booking")
+@RequestMapping("/bookings")
 public class BookingController {
     private final BookingService bookingService;
 
 
-    @PostMapping("/registerBooking")
-    public ResponseEntity<String> registerBooking(@RequestBody BookingCommand command) {
+    @PostMapping()
+    public ResponseEntity<String> createBooking(@RequestBody BookingCommand command) {
         bookingService.registerBooking(command);
         return ResponseEntity.ok("Your seat has been successfully booked");
     }
-
 
 }

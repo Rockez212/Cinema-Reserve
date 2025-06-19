@@ -3,9 +3,7 @@ package project.cinemareserve.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.cinemareserve.command.MovieRegisterCommand;
 import project.cinemareserve.command.ScreeningRegisterCommand;
-import project.cinemareserve.command.SeatRegisterCommand;
 import project.cinemareserve.entity.Movie;
 import project.cinemareserve.entity.Screening;
 import project.cinemareserve.entity.Seat;
@@ -16,28 +14,16 @@ import project.cinemareserve.repo.ScreeningRepository;
 import project.cinemareserve.repo.SeatRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class AdminService {
+public class ScreeningService {
 
-    private final MovieRepository movieRepository;
     private final ScreeningRepository screeningRepository;
+    private final MovieRepository movieRepository;
     private final SeatRepository seatRepository;
-
-    @Transactional
-    public void createMovie(MovieRegisterCommand command) {
-        String title = command.getTitle();
-        String description = command.getDescription();
-        int durationMinutes = command.getDurationMinutes();
-        Movie newMovie = new Movie(title, description, durationMinutes);
-        movieRepository.save(newMovie);
-    }
-
-    @Transactional
-    public void deleteMovie(Long id) {
-        movieRepository.deleteById(id);
-    }
 
     @Transactional
     public void createScreening(ScreeningRegisterCommand command) {
@@ -49,20 +35,33 @@ public class AdminService {
         Screening newScreening = new Screening(movie, startTime, hallName);
 
         screeningRepository.save(newScreening);
+
+        generateSeatsForScreening(newScreening);
     }
 
     @Transactional
-    public void createSeat(SeatRegisterCommand command) {
-        Screening screening = screeningRepository.findById(command.getScreeningId()).orElseThrow(()
-                -> new ScreeningNotFoundException("Screening not found"));
+    protected void generateSeatsForScreening(Screening screening) {
+        final int TOTAL_SEATS = 100;
+        final int TOTAL_ROWS = 4;
 
-        int row = command.getRow();
-        int number = command.getNumber();
-        boolean isReserved = command.isReserved();
-        Seat newSeat = new Seat(screening, row, number, isReserved);
+        int seatsPerRow = TOTAL_SEATS / TOTAL_ROWS;
 
-        seatRepository.save(newSeat);
+        List<Seat> seats = new ArrayList<>();
+        for (int row = 1; row <= TOTAL_ROWS; row++) {
+            for (int number = 1; number <= seatsPerRow; number++) {
+                seats.add(new Seat(screening, row, number, false));
+            }
+        }
+        seatRepository.saveAll(seats);
+    }
 
+    @Transactional
+    public void deleteScreening(Long screeningId) {
+        if (screeningRepository.existsById(screeningId)) {
+            screeningRepository.deleteById(screeningId);
+        } else {
+            throw new ScreeningNotFoundException("Screening not found");
+        }
     }
 
 

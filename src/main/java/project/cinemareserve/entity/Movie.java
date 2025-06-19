@@ -9,17 +9,20 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@Table(name = "movie")
+@Table(name = "movies")
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
     @Column(name = "title")
     private String title;
     @Column(name = "description")
     private String description;
-    @Column(name = "durationMinutes")
+    @Column(name = "duration_minutes")
     private int durationMinutes;
 
     public Movie(String title, String description, int durationMinutes) {

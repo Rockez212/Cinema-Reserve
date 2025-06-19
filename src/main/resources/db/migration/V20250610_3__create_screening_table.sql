@@ -1,7 +1,7 @@
-CREATE TABLE screening
+CREATE TABLE screenings
 (
     id        SERIAL PRIMARY KEY,
-    movie     BIGINT references movie (id),
-    startTime date         not null,
-    hallName  varchar(255) not null
+    movie     BIGINT references movies (id),
+    start_time timestamp         not null,
+    hall_name  varchar(255) not null
 );
