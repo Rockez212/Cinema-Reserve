@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
+import project.cinemareserve.enums.HallPlace;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -23,10 +24,11 @@ public class Screening {
     private Movie movie;
     @Column(name = "start_time")
     private LocalDateTime startTime;
-    @Column(name = "hall_name")
-    private String hallName;
+    @JoinColumn(name = "hall_name")
+    @Enumerated(EnumType.STRING)
+    private HallPlace hallName;
 
-    public Screening(Movie movie, LocalDateTime startTime, String hallName) {
+    public Screening(Movie movie, LocalDateTime startTime, HallPlace hallName) {
         this.movie = movie;
         this.startTime = startTime;
         this.hallName = hallName;

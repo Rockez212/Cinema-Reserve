@@ -7,6 +7,7 @@ import project.cinemareserve.entity.Booking;
 import project.cinemareserve.entity.Movie;
 import project.cinemareserve.entity.Screening;
 import project.cinemareserve.entity.Seat;
+import project.cinemareserve.enums.HallPlace;
 
 import java.time.format.DateTimeFormatter;
 
@@ -28,7 +29,7 @@ public class BookingMapper {
         return new BookingDto(
                 movie.getTitle(),
                 formattedTime,
-                screening.getHallName(),
+                screening.getHallName().getHallName(),
                 seat.getRow(),
                 seat.getNumber()
         );

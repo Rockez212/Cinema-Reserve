@@ -35,7 +35,7 @@ Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "movieId": 3,
+  "movieId": 1,
   "row": 2,
   "numberSeats": 25
 }
@@ -73,7 +73,7 @@ Authorization: Bearer {{accessToken}}
 {
   "movieId": 1,
   "startTime": "2025-11-15T14:25:00",
-  "hallName": "Main Hall"
+  "hallId": 2
 }
 
 ### Delete Movie

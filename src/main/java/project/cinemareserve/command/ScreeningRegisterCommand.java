@@ -1,9 +1,6 @@
 package project.cinemareserve.command;
 
-import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import project.cinemareserve.entity.Movie;
@@ -19,6 +16,8 @@ public class ScreeningRegisterCommand {
     @NotNull(message = "startTime is mandatory")
     @Future(message = "startTime must be in the future")
     private LocalDateTime startTime;
-    @NotBlank(message = "hallName is mandatory")
-    private String hallName;
+    @NotNull(message = "movieID is mandatory")
+    @Min(1)
+    @Max(5)
+    private int hallId;
 }

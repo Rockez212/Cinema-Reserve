@@ -54,4 +54,9 @@ public class HandleController {
     public ResponseEntity<String> handleScreeningNotHasBeenAnnouncedException(ScreeningNotHasBeenAnnouncedException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
+
+    @ExceptionHandler(HallNotFoundException.class)
+    public ResponseEntity<String> handleHallNotFoundException(HallNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
 }

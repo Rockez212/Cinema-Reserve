@@ -7,6 +7,7 @@ import project.cinemareserve.command.ScreeningRegisterCommand;
 import project.cinemareserve.entity.Movie;
 import project.cinemareserve.entity.Screening;
 import project.cinemareserve.entity.Seat;
+import project.cinemareserve.enums.HallPlace;
 import project.cinemareserve.exception.MovieNotFoundException;
 import project.cinemareserve.exception.ScreeningNotFoundException;
 import project.cinemareserve.repo.MovieRepository;
@@ -30,9 +31,10 @@ public class ScreeningService {
         Movie movie = movieRepository.findById(command.getMovieId())
                 .orElseThrow(() -> new MovieNotFoundException("Movie not found"));
         LocalDateTime startTime = command.getStartTime();
-        String hallName = command.getHallName();
+        int hallId = command.getHallId();
 
-        Screening newScreening = new Screening(movie, startTime, hallName);
+        HallPlace hallPlace = HallPlace.getHallPlace(hallId);
+        Screening newScreening = new Screening(movie, startTime, hallPlace);
 
         screeningRepository.save(newScreening);
 
