@@ -95,7 +95,7 @@ The API will be available at `http://localhost:8080`.
 | Method | Endpoint                     | Description                | Request Body Example                          |
 |--------|------------------------------|----------------------------|----------------------------------------------|
 | POST   | `/admin/movies`              | Add a new movie            | `{"title": "Fight Club (1999)", "description": "An office worker...", "durationMinutes": 139}` |
-| POST   | `/admin/screenings`          | Add a new screening        | `{"movieId": 1, "startTime": "2025-11-15T14:25:00", "hallName": "Main Hall"}` |
+| POST   | `/admin/screenings`          | Add a new screening        | `{"movieId": 1, "startTime": "2025-11-15T14:25:00", "hallId": "id"}` |
 | DELETE | `/admin/movies/{id}`         | Delete a movie             | -                                            |
 | DELETE | `/admin/screenings/{id}`     | Delete a screening         | -                                            |
 
