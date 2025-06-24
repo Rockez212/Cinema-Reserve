@@ -16,8 +16,6 @@ public class ScreeningRegisterCommand {
     @NotNull(message = "startTime is mandatory")
     @Future(message = "startTime must be in the future")
     private LocalDateTime startTime;
-    @NotNull(message = "movieID is mandatory")
-    @Min(1)
-    @Max(5)
-    private int hallId;
+    @NotBlank(message = "hall name is mandatory")
+    private String hallName;
 }

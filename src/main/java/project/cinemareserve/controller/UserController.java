@@ -18,8 +18,8 @@ public class UserController {
 
 
     @GetMapping()
-    public ResponseEntity<List<BookingDto>> getAllBookings() {
-        return ResponseEntity.ok(bookingService.getBookings());
+    public ResponseEntity<List<BookingDto>> getAllBooking() {
+        return ResponseEntity.ok(bookingService.getAll());
     }
 
 }

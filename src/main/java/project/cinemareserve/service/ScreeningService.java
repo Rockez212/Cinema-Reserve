@@ -9,6 +9,7 @@ import project.cinemareserve.entity.Screening;
 import project.cinemareserve.entity.Seat;
 import project.cinemareserve.enums.HallPlace;
 import project.cinemareserve.exception.MovieNotFoundException;
+import project.cinemareserve.exception.ScreeningExistsException;
 import project.cinemareserve.exception.ScreeningNotFoundException;
 import project.cinemareserve.repo.MovieRepository;
 import project.cinemareserve.repo.ScreeningRepository;
@@ -25,15 +26,20 @@ public class ScreeningService {
     private final ScreeningRepository screeningRepository;
     private final MovieRepository movieRepository;
     private final SeatRepository seatRepository;
+    private final ScreeningConfig screeningConfig;
 
     @Transactional
     public void createScreening(ScreeningRegisterCommand command) {
         Movie movie = movieRepository.findById(command.getMovieId())
                 .orElseThrow(() -> new MovieNotFoundException("Movie not found"));
         LocalDateTime startTime = command.getStartTime();
-        int hallId = command.getHallId();
 
-        HallPlace hallPlace = HallPlace.getHallPlace(hallId);
+        HallPlace hallPlace = HallPlace.getHallPlace(command.getHallName());
+
+        if (screeningRepository.existsByMovieAndStartTimeAndHallName(movie, startTime, hallPlace)) {
+            throw new ScreeningExistsException("Screening already exists for this movie at the given time and hall");
+        }
+
         Screening newScreening = new Screening(movie, startTime, hallPlace);
 
         screeningRepository.save(newScreening);
@@ -43,13 +49,11 @@ public class ScreeningService {
 
     @Transactional
     protected void generateSeatsForScreening(Screening screening) {
-        final int TOTAL_SEATS = 100;
-        final int TOTAL_ROWS = 4;
-
-        int seatsPerRow = TOTAL_SEATS / TOTAL_ROWS;
-
+        int totalSeats = screeningConfig.getTotalSeats();
+        int totalRows = screeningConfig.getTotalRows();
+        int seatsPerRow = totalSeats / totalRows;
         List<Seat> seats = new ArrayList<>();
-        for (int row = 1; row <= TOTAL_ROWS; row++) {
+        for (int row = 1; row <= totalRows; row++) {
             for (int number = 1; number <= seatsPerRow; number++) {
                 seats.add(new Seat(screening, row, number, false));
             }

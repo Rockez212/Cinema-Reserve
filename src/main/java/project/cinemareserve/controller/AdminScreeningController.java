@@ -15,13 +15,13 @@ public class AdminScreeningController {
     private final ScreeningService screeningService;
 
     @PostMapping()
-    public ResponseEntity<String> registerScreening(@RequestBody @Valid ScreeningRegisterCommand command) {
+    public ResponseEntity<String> register(@RequestBody @Valid ScreeningRegisterCommand command) {
         screeningService.createScreening(command);
         return ResponseEntity.ok("Successfully added screening");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteScreening(@PathVariable Long id) {
+    public ResponseEntity<String> delete(@PathVariable Long id) {
         screeningService.deleteScreening(id);
         return ResponseEntity.ok("Successfully deleted screening with id " + id);
     }

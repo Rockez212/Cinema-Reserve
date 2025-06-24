@@ -2,16 +2,16 @@ package project.cinemareserve.mapper;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 import project.cinemareserve.dtos.MovieDto;
 import project.cinemareserve.entity.Movie;
 
 
-@Data
-@AllArgsConstructor
+@Component
 public class MovieMapper {
 
 
-    public static MovieDto toMovieDto(Movie movie) {
+    public MovieDto toMovieDto(Movie movie) {
         if (movie == null) {
             return null;
         }
@@ -21,5 +21,6 @@ public class MovieMapper {
                 movie.getDurationMinutes()
         );
     }
+
 }
 

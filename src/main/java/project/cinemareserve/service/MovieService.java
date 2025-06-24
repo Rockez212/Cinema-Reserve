@@ -20,19 +20,17 @@ public class MovieService {
 
     private final MovieRepository movieRepository;
     private final AuthService authService;
+    private final MovieMapper movieMapper;
 
 
     @Transactional
-    public void createMovie(MovieRegisterCommand command) {
-        String title = command.getTitle();
-        String description = command.getDescription();
-        int durationMinutes = command.getDurationMinutes();
-        Movie newMovie = new Movie(title, description, durationMinutes);
+    public void create(MovieRegisterCommand command) {
+        Movie newMovie = new Movie(command.getTitle(),command.getDescription(),command.getDurationMinutes());
         movieRepository.save(newMovie);
     }
 
     @Transactional
-    public void deleteMovie(Long id) {
+    public void delete(Long id) {
         if (movieRepository.existsById(id)) {
             movieRepository.deleteById(id);
         } else {
@@ -42,10 +40,10 @@ public class MovieService {
 
 
     @Transactional(readOnly = true)
-    public List<MovieDto> getAllMovies() {
+    public List<MovieDto> getAll() {
         User currentUser = authService.getCurrentUser();
         return movieRepository.findAllByUser(currentUser).stream()
-                .map(MovieMapper::toMovieDto)
+                .map(movieMapper::toMovieDto)
                 .collect(Collectors.toList());
     }
 }

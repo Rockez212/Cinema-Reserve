@@ -16,8 +16,8 @@ import java.util.Objects;
 @Table(name = "screenings")
 public class Screening {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "screenings_seq")
+    @SequenceGenerator(name = "screenings_seq", sequenceName = "screenings_id_seq", allocationSize = 1)
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie")

@@ -12,7 +12,8 @@ import java.util.Objects;
 @Table(name = "bookings")
 public class Booking {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bookings_seq")
+    @SequenceGenerator(name = "bookings_seq", sequenceName = "bookings_id_seq", allocationSize = 1)
     @Column(name = "id")
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)

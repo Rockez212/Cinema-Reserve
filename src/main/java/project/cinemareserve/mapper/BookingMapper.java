@@ -2,6 +2,7 @@ package project.cinemareserve.mapper;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 import project.cinemareserve.dtos.BookingDto;
 import project.cinemareserve.entity.Booking;
 import project.cinemareserve.entity.Movie;
@@ -11,11 +12,10 @@ import project.cinemareserve.enums.HallPlace;
 
 import java.time.format.DateTimeFormatter;
 
-@Data
-@AllArgsConstructor
+@Component
 public class BookingMapper {
 
-    public static BookingDto toBookingDto(Booking booking) {
+    public  BookingDto toBookingDto(Booking booking) {
         if (booking == null) {
             return null;
         }

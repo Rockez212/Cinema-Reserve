@@ -27,9 +27,10 @@ public class BookingService {
     private final BookingRepository bookingRepository;
     private final MovieRepository movieRepository;
     private final ScreeningRepository screeningRepository;
+    private final BookingMapper bookingMapper;
 
     @Transactional
-    public void registerBooking(BookingCommand command) {
+    public void create(BookingCommand command) {
         checkIfScreeningExists(command.getMovieId());
 
         User user = authService.getCurrentUser();
@@ -48,22 +49,21 @@ public class BookingService {
     }
 
     @Transactional(readOnly = true)
-    public List<BookingDto> getBookings() {
+    public List<BookingDto> getAll() {
         User currentUser = authService.getCurrentUser();
-        return bookingRepository.findAllByUser(currentUser).stream().map(BookingMapper::toBookingDto).collect(Collectors.toList());
+
+        return bookingRepository.findAllByUser(currentUser).stream().map(bookingMapper::toBookingDto).collect(Collectors.toList());
     }
 
 
-    @Transactional
-    protected void checkIfScreeningExists(Long movieId) {
+    private void checkIfScreeningExists(Long movieId) {
         if (!screeningRepository.existsByMovieId(movieId)) {
             throw new ScreeningNotHasBeenAnnouncedException("Screening Not Has Been Announced");
         }
     }
 
 
-    @Transactional
-    protected void checkIfSeatsReserved(Screening screening, int row, int numberSeats) {
+    private void checkIfSeatsReserved(Screening screening, int row, int numberSeats) {
         Seat seatToCheck = seatRepository.findByScreeningAndRowAndNumber(screening, row, numberSeats).orElseThrow(() -> new SeatNotFoundException("Seat Not Found"));
 
         if (seatToCheck.isReserved()) {

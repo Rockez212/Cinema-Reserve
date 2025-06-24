@@ -3,31 +3,34 @@ package project.cinemareserve.enums;
 import lombok.Getter;
 import project.cinemareserve.exception.HallNotFoundException;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 @Getter
 public enum HallPlace {
-    IMAX(1, "IMAX"),
-    FOUR_DX(2, "4DX"),
-    VIP_LOUNGE(3, "Vip Lounge"),
-    COMFORT_PLUS(4, "Comfort+"),
-    DOLBY_ATMOSPHERE(5, "Dolby Atmos");
+    IMAX("IMAX"),
+    FOUR_DX("4DX"),
+    VIP_LOUNGE("Vip Lounge"),
+    COMFORT_PLUS("Comfort+"),
+    DOLBY_ATMOSPHERE("Dolby Atmos");
 
-    private final int id;
     private final String hallName;
 
-    HallPlace(int id, String hallName) {
-        this.id = id;
+    HallPlace(String hallName) {
         this.hallName = hallName;
     }
 
 
-    public static HallPlace getHallPlace(int id) {
-        for (HallPlace hallPlace : HallPlace.values()) {
-            if (hallPlace.getId() == id) {
-                return hallPlace;
-            }
-        }
-        throw new HallNotFoundException("Hall place id %d is not found +: " + id);
+    public static HallPlace getHallPlace(String hallName) {
+        return Arrays.stream(HallPlace.values())
+                .filter(hall -> hall.getHallName().equalsIgnoreCase(hallName))
+                .findFirst()
+                .orElseThrow(() -> new HallNotFoundException("Hall " + hallName + " not found"));
     }
+
+
+
+
 
 
 }

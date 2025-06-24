@@ -4,8 +4,8 @@ POST http://localhost:8080/auth/register
 Content-Type: application/json
 
 {
-  "username": "Rockez666",
-  "email": "dfgd251asdf@gmail.com",
+  "username": "Нырпа",
+  "email": "narpa227@gmail.com",
   "password": "1234567"
 }
 
@@ -14,8 +14,8 @@ POST http://localhost:8080/auth/login
 Content-Type: application/json
 
 {
-  "username": "Rockez666",
-  "password": "1234567"
+  "username": "admin",
+  "password": "admin"
 }
 
 > {%
@@ -71,18 +71,18 @@ Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "movieId": 1,
+  "movieId": 2,
   "startTime": "2025-11-15T14:25:00",
-  "hallId": 2
+  "hallName": "Vip Lounge"
 }
 
 ### Delete Movie
-DELETE http://localhost:8080/admin/movies/3
+DELETE http://localhost:8080/admin/movies/1
 Authorization: Bearer {{accessToken}}
 
 
 ### Delete Screening
-DELETE http://localhost:8080/admin/screenings/5
+DELETE http://localhost:8080/admin/screenings/2
 Authorization: Bearer {{accessToken}}
 
 

@@ -13,8 +13,8 @@ import java.util.Objects;
 @Table(name = "seats")
 public class Seat {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seats_seq")
+    @SequenceGenerator(name = "seats_seq", sequenceName = "seats_id_seq", allocationSize = 1)
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     private Screening screening;

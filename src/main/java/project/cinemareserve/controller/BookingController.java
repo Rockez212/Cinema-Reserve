@@ -17,8 +17,8 @@ public class BookingController {
 
 
     @PostMapping()
-    public ResponseEntity<String> createBooking(@RequestBody BookingCommand command) {
-        bookingService.registerBooking(command);
+    public ResponseEntity<String> create(@RequestBody BookingCommand command) {
+        bookingService.create(command);
         return ResponseEntity.ok("Your seat has been successfully booked");
     }
 
