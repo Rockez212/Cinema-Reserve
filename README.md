@@ -84,7 +84,7 @@ The API will be available at `http://localhost:8080`.
 ### Booking
 | Method | Endpoint              | Description                | Request Body Example                          |
 |--------|-----------------------|----------------------------|----------------------------------------------|
-| POST   | `/bookings`           | Book a movie seat          | `{"movieId": "1", "row": "A", "numberSeats": "5"}` |
+| POST   | `/bookings`           | Book a movie seat          | `{"movieId": "1", "row": "2", "numberSeats": "5"}` |
 | GET    | `/users`              | Retrieve user bookings     | -                                            |
 
 **Responses**:
