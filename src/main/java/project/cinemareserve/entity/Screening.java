@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Service;
 import project.cinemareserve.enums.HallPlace;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -24,6 +25,8 @@ public class Screening {
     private Movie movie;
     @Column(name = "start_time")
     private LocalDateTime startTime;
+    @Column(name = "end_time")
+    private LocalDateTime endTime;
     @JoinColumn(name = "hall_name")
     @Enumerated(EnumType.STRING)
     private HallPlace hallName;
@@ -36,6 +39,13 @@ public class Screening {
 
     protected Screening() {
     }
+
+
+    public void updateEndTime(int durationMinutes) {
+        Duration duration = Duration.ofMinutes(durationMinutes);
+        this.endTime = this.startTime.plus(duration);
+    }
+
 
     @Override
     public boolean equals(Object o) {

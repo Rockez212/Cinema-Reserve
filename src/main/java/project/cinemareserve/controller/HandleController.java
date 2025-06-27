@@ -64,4 +64,9 @@ public class HandleController {
     public ResponseEntity<String> handleScreeningExistsException(ScreeningExistsException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
+
+    @ExceptionHandler(HallIsBusyException.class)
+    public ResponseEntity<String> handleHallIsBusyException(HallIsBusyException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
 }

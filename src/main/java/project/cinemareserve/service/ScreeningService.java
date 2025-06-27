@@ -15,6 +15,7 @@ import project.cinemareserve.repo.MovieRepository;
 import project.cinemareserve.repo.ScreeningRepository;
 import project.cinemareserve.repo.SeatRepository;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,21 +28,23 @@ public class ScreeningService {
     private final MovieRepository movieRepository;
     private final SeatRepository seatRepository;
     private final ScreeningConfig screeningConfig;
-
     @Transactional
     public void createScreening(ScreeningRegisterCommand command) {
         Movie movie = movieRepository.findById(command.getMovieId())
                 .orElseThrow(() -> new MovieNotFoundException("Movie not found"));
+
         LocalDateTime startTime = command.getStartTime();
+        LocalDateTime endTime = getEndTime(startTime, movie.getDurationMinutes());
 
         HallPlace hallPlace = HallPlace.getHallPlace(command.getHallName());
 
-        if (screeningRepository.existsByMovieAndStartTimeAndHallName(movie, startTime, hallPlace)) {
-            throw new ScreeningExistsException("Screening already exists for this movie at the given time and hall");
+
+        if (screeningRepository.hallIsBusy(hallPlace, startTime, endTime)) {
+            throw new ScreeningExistsException("Hall is busy in that period");
         }
 
         Screening newScreening = new Screening(movie, startTime, hallPlace);
-
+        newScreening.updateEndTime(movie.getDurationMinutes());
         screeningRepository.save(newScreening);
 
         generateSeatsForScreening(newScreening);
@@ -68,6 +71,11 @@ public class ScreeningService {
         } else {
             throw new ScreeningNotFoundException("Screening not found");
         }
+    }
+
+    private LocalDateTime getEndTime(LocalDateTime startTime, int duration) {
+        Duration durationMinutes = Duration.ofMinutes(duration);
+        return startTime.plus(durationMinutes);
     }
 
 

@@ -15,6 +15,8 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movies_seq")
     @SequenceGenerator(name = "movies_seq", sequenceName = "movies_id_seq", allocationSize = 1)
     private Long id;
+    @Column(name = "admin_id")
+    private Long adminId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

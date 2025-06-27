@@ -25,7 +25,8 @@ public class MovieService {
 
     @Transactional
     public void create(MovieRegisterCommand command) {
-        Movie newMovie = new Movie(command.getTitle(),command.getDescription(),command.getDurationMinutes());
+        Movie newMovie = new Movie(command.getTitle(), command.getDescription(), command.getDurationMinutes());
+        newMovie.setAdminId(authService.getCurrentUser().getId());
         movieRepository.save(newMovie);
     }
 

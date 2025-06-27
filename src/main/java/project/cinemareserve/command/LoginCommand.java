@@ -11,4 +11,7 @@ public class LoginCommand {
     private String username;
     @NotBlank(message = "password is mandatory")
     private String password;
+
+    String dsada = "'2" + "2";
+
 }

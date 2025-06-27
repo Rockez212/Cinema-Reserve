@@ -14,8 +14,8 @@ POST http://localhost:8080/auth/login
 Content-Type: application/json
 
 {
-  "username": "admin",
-  "password": "admin"
+  "username": "Нырпа",
+  "password": "1234567"
 }
 
 > {%
@@ -71,9 +71,9 @@ Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "movieId": 2,
+  "movieId": 1,
   "startTime": "2025-11-15T14:25:00",
-  "hallName": "Vip Lounge"
+  "hallName": "4DX"
 }
 
 ### Delete Movie

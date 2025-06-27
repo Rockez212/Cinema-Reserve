@@ -36,7 +36,7 @@ public class BookingService {
         User user = authService.getCurrentUser();
         Movie bookedMovie = movieRepository.findById(command.getMovieId()).orElseThrow(() -> new MovieNotFoundException("Movie Not Found"));
 
-        Screening screening = screeningRepository.findByMovieId(bookedMovie.getId());
+        Screening screening = screeningRepository.findFirstByMovieId(bookedMovie.getId());
 
         checkIfSeatsReserved(screening, command.getRow(), command.getNumberSeats());
 
