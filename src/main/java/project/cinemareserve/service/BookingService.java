@@ -16,8 +16,8 @@ import project.cinemareserve.repo.MovieRepository;
 import project.cinemareserve.repo.ScreeningRepository;
 import project.cinemareserve.repo.SeatRepository;
 
+import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -52,7 +52,10 @@ public class BookingService {
     public List<BookingDto> getAll() {
         User currentUser = authService.getCurrentUser();
 
-        return bookingRepository.findAllByUser(currentUser).stream().map(bookingMapper::toBookingDto).collect(Collectors.toList());
+        return bookingRepository.findAllByUser(currentUser).stream()
+                .map(bookingMapper::toBookingDto)
+                .sorted(Comparator.comparing(BookingDto::getStartTime))
+                .toList();
     }
 
 

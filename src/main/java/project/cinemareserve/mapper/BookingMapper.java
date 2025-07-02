@@ -24,11 +24,11 @@ public class BookingMapper {
         Screening screening = seat.getScreening();
         Movie movie = screening.getMovie();
 
-        String formattedTime = screening.getStartTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
         return new BookingDto(
                 movie.getTitle(),
-                formattedTime,
+                screening.getStartTime(),
+                screening.getEndTime(),
                 screening.getHallName().getHallName(),
                 seat.getRow(),
                 seat.getNumber()

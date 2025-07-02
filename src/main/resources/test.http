@@ -4,8 +4,8 @@ POST http://localhost:8080/auth/register
 Content-Type: application/json
 
 {
-  "username": "Нырпа",
-  "email": "narpa227@gmail.com",
+  "username": "RanelShma",
+  "email": "RanelShma@gmail.com",
   "password": "1234567"
 }
 
@@ -14,7 +14,7 @@ POST http://localhost:8080/auth/login
 Content-Type: application/json
 
 {
-  "username": "Нырпа",
+  "username": "RanelShma",
   "password": "1234567"
 }
 
@@ -35,9 +35,9 @@ Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "movieId": 1,
-  "row": 2,
-  "numberSeats": 25
+  "movieId": 2,
+  "row": 1,
+  "numberSeats": 11
 }
 
 ### Get bookings
@@ -49,10 +49,6 @@ Authorization: Bearer {{accessToken}}
 
 ### ADMIN SERVICE
 
-/
-
-
-
 ### Create movie
 POST http://localhost:8080/admin/movies
 Content-Type: application/json
@@ -60,9 +56,9 @@ Authorization: Bearer {{accessToken}}
 
 
 {
-  "title": "Fight Club (1999)",
-  "description": "An office worker suffering from insomnia meets a mysterious soap salesman named Tyler Durden. Together they form an underground fight club that evolves into something much more.",
-  "durationMinutes": 139
+  "title": "The Dark Knight (2008)",
+  "description": "Batman faces Joker chaos.",
+  "durationMinutes": 152
 }
 
 ### Create Screening
@@ -71,13 +67,13 @@ Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "movieId": 1,
-  "startTime": "2025-11-15T14:25:00",
-  "hallName": "4DX"
+  "movieId": 6,
+  "startTime": "2025-11-20T20:31:00",
+  "hallName": "IMAX"
 }
 
 ### Delete Movie
-DELETE http://localhost:8080/admin/movies/1
+DELETE http://localhost:8080/admin/movies/5
 Authorization: Bearer {{accessToken}}
 
 
