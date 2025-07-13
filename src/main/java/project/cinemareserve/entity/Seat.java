@@ -38,6 +38,7 @@ public class Seat {
 
     @Override
     public boolean equals(Object o) {
+        if(o == this) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Seat seat = (Seat) o;
         return Objects.equals(id, seat.id);
