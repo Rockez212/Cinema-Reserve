@@ -38,7 +38,6 @@ public class Movie {
 
     @Override
     public boolean equals(Object o) {
-        if(o == this) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Movie movie = (Movie) o;
         return Objects.equals(id, movie.id);

@@ -36,14 +36,13 @@ public class Booking {
 
     @Override
     public boolean equals(Object o) {
-        if(o == this) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Booking booking = (Booking) o;
-        return Objects.equals(id, booking.id) && Objects.equals(user, booking.user) && Objects.equals(seat, booking.seat);
+        return Objects.equals(id, booking.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, seat);
+        return Objects.hashCode(id);
     }
 }

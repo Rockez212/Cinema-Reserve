@@ -49,7 +49,6 @@ public class Screening {
 
     @Override
     public boolean equals(Object o) {
-        if(o == this) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Screening screening = (Screening) o;
         return Objects.equals(id, screening.id);
